@@ -1,13 +1,5 @@
-import pandas as pd
-from database import get_cursor
+from playeranalyze import get_player_data
 import matplotlib.pyplot as plt
-
-connection, cursor = get_cursor()
-
-def get_player_data(player_name):
-    query = "SELECT inning, over, ball, total_runs FROM balls WHERE batsman = \'" + player_name + "\'"
-    df = pd.read_sql_query(query, connection)
-    return df
 
 def organize_data_by_over(player_data):
     player_data["over"] = player_data["over"] + (player_data["ball"] / 6)
@@ -28,6 +20,3 @@ def plot_organized_data(player_data, player_name):
 def plot_player_trends(player_name):
     plot_organized_data(organize_data_by_over(get_player_data(player_name)), player_name)
     return player_name
-
-
-connection.close()
